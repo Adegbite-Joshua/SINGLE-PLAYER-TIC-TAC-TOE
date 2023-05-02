@@ -16,8 +16,10 @@ function App() {
 
   return (
     <>       
-      <LandingPage/>
-      <Game/>
+      <Routes>
+          <Route path='/' element={<LandingPage/>}/>
+          <Route path='/dashboard' element={<Game/>}/>
+      </Routes>
     </>
   )
 }

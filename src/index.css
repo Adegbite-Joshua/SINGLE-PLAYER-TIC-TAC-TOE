@@ -61,3 +61,12 @@
       height: 60% !important;
   }
 }
+
+.nameDiv{
+  background-image:url(th.jpeg);
+  /* background-image: url(); */
+  background-color: inherit;
+  background-blend-mode: darken;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
