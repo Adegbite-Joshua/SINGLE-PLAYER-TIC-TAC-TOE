@@ -5,21 +5,29 @@ import { useNavigate } from 'react-router-dom'
 const LandingPage = () => {
   const navigate = useNavigate();
   const [allTictactoePlayer, setallTictactoePlayer] = useState([])
+  
+  console.log(allTictactoePlayer);
   const [foundUser, setfoundUser] = useState(false)
-  useEffect(() => {
-    document.querySelector('input').focus()
-    if (localStorage.allTictactoePlayer) {
-      let newallTictactoePlayer = JSON.parse(localStorage.getItem('tictactoePlayerDetails'))
-      setallTictactoePlayer(newallTictactoePlayer)
+  const [names, setnames] = useState('')
+  const fetchData =()=>{
+      // let newallTictactoePlayer = JSON.parse(localStorage.getItem('tictactoePlayerDetails'))
+      if (localStorage.tictactoePlayerDetails) {
+        // alert('yes')
+        setallTictactoePlayer(JSON.parse(localStorage.getItem('tictactoePlayerDetails')))
+        console.log(allTictactoePlayer);
+        // console.log();
+      }
     }
-    console.log(allTictactoePlayer)
+  useEffect(() => {
+    document.querySelector('input').focus();
+    fetchData()
   }, [])
   
   const startGame =()=>{
     let playerName = document.querySelector('input').value.trim()
-    if (playerName!="") {
+    if (names!="") {
       allTictactoePlayer.map((user, index)=>{
-        if (user.name==playerName) {
+        if (user.name==names) {
           localStorage.setItem('currentTictactoePlayer', index);
           let newfoundUser = true;
           setfoundUser(newfoundUser)
@@ -27,31 +35,34 @@ const LandingPage = () => {
         }
       })
       if (foundUser) {
-        // navigate('/dashboard')
+        navigate('/dashboard')
       } else{
         let newPlayerDetails = {
-          name: playerName,
+          name: names,
           score: [
             0,
             0
           ],
-          tableDisplay: [
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-          ]
+          tableDisplay: {
+            box1: '',
+            box2: '',
+            box3: '',
+            box4: '',
+            box5: '',
+            box6: '',
+            box7: '',
+            box8: '',
+            box9: '',
+        },
+          nextPlayer: 'X'
         }
+        // console.log(newPlayerDetails);
         // allTictactoePlayer.push(newPlayerDetails)
         setallTictactoePlayer([...allTictactoePlayer, newPlayerDetails])
-        localStorage.setItem('tictactoePlayerDetails', JSON.stringify(allTictactoePlayer))
+        localStorage.setItem('tictactoePlayerDetails', JSON.stringify([...allTictactoePlayer, newPlayerDetails]))
         localStorage.setItem('currentTictactoePlayer', allTictactoePlayer.length);
-        // navigate('/dashboard')
+        // fetchData()
+        navigate('/dashboard')
       }
     } else{
       document.querySelector('p').style.display = "block";
@@ -66,7 +77,7 @@ const LandingPage = () => {
           {/* <div style={{aspectRatio: '1'}} className='w-50 d-block mx-auto border border-2'> */}
               <div className='nameDiv w-50 h-50 d-block mx-auto border border-2 d-flex align-items-center justify-content-center flex-column px-5'>
                   <p className='text-light text-center'>Enter your name to crate an account or continue your game</p>
-                  <input type="text" placeholder='Enter your name' className='form-control my-2 text-center'/>
+                  <input type="text" onKeyUp={(e)=>setnames(e.target.value)} placeholder='Enter your name' className='form-control my-2 text-center'/>
                   <p style={{display: 'none'}} className='text-light'>Please input a name to continue</p>
                   <button onClick={startGame} className="btn btn-warning w-100">Start</button>
               </div>

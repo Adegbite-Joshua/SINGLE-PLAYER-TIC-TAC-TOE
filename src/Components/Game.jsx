@@ -1,33 +1,52 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const Game = () => {
-    const [allTictactoePlayer, setallTictactoePlayer] = useState(JSON.parse(localStorage.getItem('tictactoePlayerDetails')))
-    const [currentPlayer, setcurrentPlayer] = useState(Number(localStorage.getItem('currentTictactoePlayer')))
-        useEffect(() => {
+    // const [navigate, setnavigate] = useState(null)
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (!localStorage.tictactoePlayerDetails || !localStorage.currentTictactoePlayer) {
+            navigate('/')
+        } else{
             let newallTictactoePlayer = JSON.parse(localStorage.getItem('tictactoePlayerDetails'))
             setallTictactoePlayer(newallTictactoePlayer)
             showPlayers()
             console.log(allTictactoePlayer);
+        }
+    }, [])
+    // const goback =()=>{
+        
+    // }
+    const [allTictactoePlayer, setallTictactoePlayer] = useState(JSON.parse(localStorage.getItem('tictactoePlayerDetails')))
+    const [currentPlayer, setcurrentPlayer] = useState(Number(localStorage.getItem('currentTictactoePlayer')))
+    const [player, setplayer] = useState(allTictactoePlayer[currentPlayer]) 
+    // useEffect(() => {
+            
 
-        }, [])
+        // }, [])
         // let details = localStorage.getItem('tictactoePlayerDetails')
         let players = []
-        let nextPlayer = 'X'
+        let nextPlayer = '';
         const showPlayers =()=>{
-            players = [ allTictactoePlayer[currentPlayer].name , 'computer']
+            players = [ allTictactoePlayer[currentPlayer].name, 'computer']
+            let score = player.score
             fPSN.innerText = 1
             sPSN.innerText = 2
             firstSign.innerText = "X"
             secondSign.innerText = "O"
-            firstScore.innerText = 0
-            secondScore.innerText = 0 
+            firstScore.innerText = score[0]
+            secondScore.innerText = score[1] 
             firstPlayer.innerText = players[0]
             secondPlayer.innerText = players[1]
-            let nextPlayer = "X"
+            // console.log(player);
+            // nextPlayer = player.nextPlayer
             nextPlayerToPlay.innerText = `It is ${players[0]}'s turn to play, playing as "X"`
+            for (let i = 1; i <= 9; i++) {
+                document.getElementById(`box${i}`).innerText = player.tableDisplay[`box${i}`]
+            }
         }
         const playGame =(e)=>{
-            if (boxa1.innerText=="X" && boxb2.innerText=="X" && boxc3.innerText=="X" || boxa2.innerText=="X" && boxb2.innerText=="X" && boxc2.innerText=="X" || boxa3.innerText=="X" && boxb2.innerText=="X" && boxc1.innerText=="X" || boxb1.innerText=="X" && boxb2.innerText=="X" && boxb3.innerText=="X" || boxa1.innerText=="X" && boxa2.innerText=="X" && boxa3.innerText=="X" || boxc1.innerText=="X" && boxc2.innerText=="X" && boxc3.innerText=="X" || boxa1.innerText=="X" && boxb1.innerText=="X" && boxc1.innerText=="X" || boxa3.innerText=="X" && boxb3.innerText=="X" && boxc3.innerText=="X" || boxa1.innerText=="O" && boxb2.innerText=="O" && boxc3.innerText=="O" || boxa2.innerText=="O" && boxb2.innerText=="O" && boxc2.innerText=="O" || boxa3.innerText=="O" && boxb2.innerText=="O" && boxc1.innerText=="O" || boxb1.innerText=="O" && boxb2.innerText=="O" && boxb3.innerText=="O" || boxa1.innerText=="O" && boxa2.innerText=="O" && boxa3.innerText=="O" || boxc1.innerText=="O" && boxc2.innerText=="O" && boxc3.innerText=="O" || boxa1.innerText=="O" && boxb1.innerText=="O" && boxc1.innerText=="O" || boxa3.innerText=="O" && boxb3.innerText=="O" && boxc3.innerText=="O") {
+            if (box1.innerText=="X" && box2.innerText=="X" && box3.innerText=="X" || box2.innerText=="X" && box2.innerText=="X" && box2.innerText=="X" || box3.innerText=="X" && box2.innerText=="X" && box1.innerText=="X" || box1.innerText=="X" && box2.innerText=="X" && box3.innerText=="X" || box1.innerText=="X" && box2.innerText=="X" && box3.innerText=="X" || box1.innerText=="X" && box2.innerText=="X" && box3.innerText=="X" || box1.innerText=="X" && box1.innerText=="X" && box1.innerText=="X" || box3.innerText=="X" && box3.innerText=="X" && box3.innerText=="X" || box1.innerText=="O" && box2.innerText=="O" && box3.innerText=="O" || box2.innerText=="O" && box2.innerText=="O" && box2.innerText=="O" || box3.innerText=="O" && box2.innerText=="O" && box1.innerText=="O" || box1.innerText=="O" && box2.innerText=="O" && box3.innerText=="O" || box1.innerText=="O" && box2.innerText=="O" && box3.innerText=="O" || box1.innerText=="O" && box2.innerText=="O" && box3.innerText=="O" || box1.innerText=="O" && box1.innerText=="O" && box1.innerText=="O" || box3.innerText=="O" && box3.innerText=="O" && box3.innerText=="O") {
                 alert("Click on continue")
             } else {
                 if (nextPlayer=="X" && e.target.innerText=="") {
@@ -39,19 +58,19 @@ const Game = () => {
                     nextPlayer = "X"
                     nextPlayerToPlay.innerText = `It is ${players[0]}'s turn to play, playing as "X"`
                 }
-                if (boxa1.innerText=="X" && boxb2.innerText=="X" && boxc3.innerText=="X" || boxa2.innerText=="X" && boxb2.innerText=="X" && boxc2.innerText=="X" || boxa3.innerText=="X" && boxb2.innerText=="X" && boxc1.innerText=="X" || boxb1.innerText=="X" && boxb2.innerText=="X" && boxb3.innerText=="X" || boxa1.innerText=="X" && boxa2.innerText=="X" && boxa3.innerText=="X" || boxc1.innerText=="X" && boxc2.innerText=="X" && boxc3.innerText=="X" || boxa1.innerText=="X" && boxb1.innerText=="X" && boxc1.innerText=="X" || boxa3.innerText=="X" && boxb3.innerText=="X" && boxc3.innerText=="X") {
+                if (box1.innerText=="X" && box2.innerText=="X" && box3.innerText=="X" || box2.innerText=="X" && box2.innerText=="X" && box2.innerText=="X" || box3.innerText=="X" && box2.innerText=="X" && box1.innerText=="X" || box1.innerText=="X" && box2.innerText=="X" && box3.innerText=="X" || box1.innerText=="X" && box2.innerText=="X" && box3.innerText=="X" || box1.innerText=="X" && box2.innerText=="X" && box3.innerText=="X" || box1.innerText=="X" && box1.innerText=="X" && box1.innerText=="X" || box3.innerText=="X" && box3.innerText=="X" && box3.innerText=="X") {
                     firstScore.innerText = Number(firstScore.innerText)+5
                     nextPlayer = ""
                     winner.innerText = `${players[0]} wins`
-                } else if (boxa1.innerText=="O" && boxb2.innerText=="O" && boxc3.innerText=="O" || boxa2.innerText=="O" && boxb2.innerText=="O" && boxc2.innerText=="O" || boxa3.innerText=="O" && boxb2.innerText=="O" && boxc1.innerText=="O" || boxb1.innerText=="O" && boxb2.innerText=="O" && boxb3.innerText=="O" || boxa1.innerText=="O" && boxa2.innerText=="O" && boxa3.innerText=="O" || boxc1.innerText=="O" && boxc2.innerText=="O" && boxc3.innerText=="O" || boxa1.innerText=="O" && boxb1.innerText=="O" && boxc1.innerText=="O" || boxa3.innerText=="O" && boxb3.innerText=="O" && boxc3.innerText=="O") {
+                } else if (box1.innerText=="O" && box2.innerText=="O" && box3.innerText=="O" || box2.innerText=="O" && box2.innerText=="O" && box2.innerText=="O" || box3.innerText=="O" && box2.innerText=="O" && box1.innerText=="O" || box1.innerText=="O" && box2.innerText=="O" && box3.innerText=="O" || box1.innerText=="O" && box2.innerText=="O" && box3.innerText=="O" || box1.innerText=="O" && box2.innerText=="O" && box3.innerText=="O" || box1.innerText=="O" && box1.innerText=="O" && box1.innerText=="O" || box3.innerText=="O" && box3.innerText=="O" && box3.innerText=="O") {
                     secondScore.innerText = Number(secondScore.innerText)+5
                     nextPlayer = ""
                     winner.innerText = `${players[1]} wins`
-                } else if (boxa1.innerText!=""&&boxa2.innerText!=""&&boxa3.innerText!=""&&boxb1.innerText!=""&&boxa2.innerText!=""&&boxb3.innerText!=""&&boxc1.innerText!=""&&boxc2.innerText!=""&&boxc3.innerText!="") {
+                } else if (box1.innerText!=""&&box2.innerText!=""&&box3.innerText!=""&&box1.innerText!=""&&box2.innerText!=""&&box3.innerText!=""&&box1.innerText!=""&&box2.innerText!=""&&box3.innerText!="") {
                     winner.innerText = `Draw 😰`
                 }
             }
-            setTimeout(computerPlaying, 900) 
+            // setTimeout(computerPlaying, 900) 
         }
 
         const computerPlaying =()=>{
@@ -65,45 +84,45 @@ const Game = () => {
         //     }
         // }
         const continueGame =()=>{
-            boxa1.innerText = ""
-            boxa2.innerText = ""
-            boxa3.innerText = ""
-            boxb1.innerText = ""
-            boxb2.innerText = ""
-            boxb3.innerText = ""
-            boxc1.innerText = ""
-            boxc2.innerText = ""
-            boxc3.innerText = ""
+            box1.innerText = ""
+            box2.innerText = ""
+            box3.innerText = ""
+            box1.innerText = ""
+            box2.innerText = ""
+            box3.innerText = ""
+            box1.innerText = ""
+            box2.innerText = ""
+            box3.innerText = ""
             winner.innerText = ""
             nextPlayer = "X"
         }
         const restartGame =()=>{
             firstScore.innerText = 0
             secondScore.innerText = 0
-            boxa1.innerText = ""
-            boxa2.innerText = ""
-            boxa3.innerText = ""
-            boxb1.innerText = ""
-            boxb2.innerText = ""
-            boxb3.innerText = ""
-            boxc1.innerText = ""
-            boxc2.innerText = ""
-            boxc3.innerText = ""
+            box1.innerText = ""
+            box2.innerText = ""
+            box3.innerText = ""
+            box1.innerText = ""
+            box2.innerText = ""
+            box3.innerText = ""
+            box1.innerText = ""
+            box2.innerText = ""
+            box3.innerText = ""
             winner.innerText = ""
             nextPlayer = "X"
         }
         const resetGame =()=>{
             firstScore.innerText = 0
             secondScore.innerText = 0
-            boxa1.innerText = ""
-            boxa2.innerText = ""
-            boxa3.innerText = ""
-            boxb1.innerText = ""
-            boxb2.innerText = ""
-            boxb3.innerText = ""
-            boxc1.innerText = ""
-            boxc2.innerText = ""
-            boxc3.innerText = ""
+            box1.innerText = ""
+            box2.innerText = ""
+            box3.innerText = ""
+            box1.innerText = ""
+            box2.innerText = ""
+            box3.innerText = ""
+            box1.innerText = ""
+            box2.innerText = ""
+            box3.innerText = ""
             winner.innerText = ""
             nextPlayer = "X"
             localStorage.removeItem("tictactoePlayers")
@@ -120,15 +139,15 @@ const Game = () => {
         <div className='w-100 vh-100 row row-cols-1 row-cols-md-2 overflow-hidden position-relative border border-2'>
             <div className="smallDeviceHeight">
                 <div style={{height: '300px', width: '300px', display: 'flex', flexWrap: 'wrap'}} className="mx-auto">
-                    <div id="boxa1" className="border border-2 checkBox m-auto rounded-2 border-danger danger d-flex justify-content-center align-items-center fw-bold" onClick={(e)=>playGame(e)}></div>
-                    <div id="boxa2" className="border border-2 checkBox m-auto rounded-2 border-success success d-flex justify-content-center align-items-center fw-bold" onClick={(e)=>playGame(e)}></div>
-                    <div id="boxa3" className="border border-2 checkBox m-auto rounded-2 border-success success d-flex justify-content-center align-items-center fw-bold" onClick={(e)=>playGame(e)}></div>
-                    <div id="boxb1" className="border border-2 checkBox m-auto rounded-2 border-warning warning d-flex justify-content-center align-items-center fw-bold" onClick={(e)=>playGame(e)}></div>
-                    <div id="boxb2" className="border border-2 checkBox m-auto rounded-2 border-danger danger d-flex justify-content-center align-items-center fw-bold" onClick={(e)=>playGame(e)}></div>
-                    <div id="boxb3" className="border border-2 checkBox m-auto rounded-2 border-success success d-flex justify-content-center align-items-center fw-bold" onClick={(e)=>playGame(e)}></div>
-                    <div id="boxc1" className="border border-2 checkBox m-auto rounded-2 border-warning warning d-flex justify-content-center align-items-center fw-bold" onClick={(e)=>playGame(e)}></div>
-                    <div id="boxc2" className="border border-2 checkBox m-auto rounded-2 border-warning warning d-flex justify-content-center align-items-center fw-bold" onClick={(e)=>playGame(e)}></div>
-                    <div id="boxc3" className="border border-2 checkBox m-auto rounded-2 border-danger danger d-flex justify-content-center align-items-center fw-bold" onClick={(e)=>playGame(e)}></div>
+                    <div id="box1" className="border border-2 checkBox m-auto rounded-2 border-danger danger d-flex justify-content-center align-items-center fw-bold" onClick={(e)=>playGame(e)}></div>
+                    <div id="box2" className="border border-2 checkBox m-auto rounded-2 border-success success d-flex justify-content-center align-items-center fw-bold" onClick={(e)=>playGame(e)}></div>
+                    <div id="box3" className="border border-2 checkBox m-auto rounded-2 border-success success d-flex justify-content-center align-items-center fw-bold" onClick={(e)=>playGame(e)}></div>
+                    <div id="box4" className="border border-2 checkBox m-auto rounded-2 border-warning warning d-flex justify-content-center align-items-center fw-bold" onClick={(e)=>playGame(e)}></div>
+                    <div id="box5" className="border border-2 checkBox m-auto rounded-2 border-danger danger d-flex justify-content-center align-items-center fw-bold" onClick={(e)=>playGame(e)}></div>
+                    <div id="box6" className="border border-2 checkBox m-auto rounded-2 border-success success d-flex justify-content-center align-items-center fw-bold" onClick={(e)=>playGame(e)}></div>
+                    <div id="box7" className="border border-2 checkBox m-auto rounded-2 border-warning warning d-flex justify-content-center align-items-center fw-bold" onClick={(e)=>playGame(e)}></div>
+                    <div id="box8" className="border border-2 checkBox m-auto rounded-2 border-warning warning d-flex justify-content-center align-items-center fw-bold" onClick={(e)=>playGame(e)}></div>
+                    <div id="box9" className="border border-2 checkBox m-auto rounded-2 border-danger danger d-flex justify-content-center align-items-center fw-bold" onClick={(e)=>playGame(e)}></div>
                 </div>
                 <p id="nextPlayerToPlay" className="text-success text-center"></p>
                 <div className="mx-auto w-50 d-block btn-group">
