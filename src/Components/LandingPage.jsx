@@ -54,7 +54,8 @@ const LandingPage = () => {
             box8: '',
             box9: '',
         },
-          nextPlayer: 'X'
+          nextPlayer: 0,
+          nextPlayerSign: 'X'
         }
         // console.log(newPlayerDetails);
         // allTictactoePlayer.push(newPlayerDetails)
